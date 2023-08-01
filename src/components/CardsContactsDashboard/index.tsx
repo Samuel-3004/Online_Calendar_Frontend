@@ -5,7 +5,7 @@ import { userContext } from "../../providers/contacts/contactContext";
 import { UserListContext } from "../../providers/clients/userContext";
 
 function CardsContactsDashboard() {
-  const { setOpen } = useContext(UserListContext);
+  const { setOpen, user } = useContext(UserListContext);
 
   const { contactsUser, setContactId, setContactFounded, setOpenEd } =
     useContext(userContext);

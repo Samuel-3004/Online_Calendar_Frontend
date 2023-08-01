@@ -1,73 +1,72 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { StyledModalEdit } from "./modalEditarStyled";
 import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
-import { userContext } from "../../providers/contacts/contactContext";
-import { TContactRequest } from "../../providers/contacts/types.contacts";
 import { UserListContext } from "../../providers/clients/userContext";
+import { TClientRequest } from "../../providers/clients/types.clients";
 
-const ModalEditcontacts = () => {
+function CardEditProfile() {
   const {
-    contactFounded,
-    editContact,
-    deleteContact,
-    handleToCloseEd,
-    openEd,
-    contactsUser,
-  } = useContext(userContext);
+    user,
+    userEdit,
+    openEditeUser,
+    userDelete,
+    handleToCloseEditUser,
+    setOpenEditeUser,
+  } = useContext(UserListContext);
 
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<TContactRequest>({});
+  } = useForm<TClientRequest>();
 
-  const submit: SubmitHandler<TContactRequest> = (formData) => {
-    editContact(formData);
+  const submit: SubmitHandler<TClientRequest> = (formData) => {
+    userEdit(formData);
     reset();
   };
 
   const btnDelete = () => {
-    deleteContact();
-    handleToCloseEd();
+    userDelete();
+    handleToCloseEditUser();
   };
-  
 
   return (
-    <StyledModalEdit open={openEd}>
+    <StyledModalEdit open={openEditeUser}>
       <div className="container-modal">
         <div className="header-register">
           <h3>Contato Detalhes</h3>
-          <p onClick={handleToCloseEd}>X</p>
+          <p onClick={handleToCloseEditUser}>X</p>
         </div>
         <form onSubmit={handleSubmit(submit)}>
           <section className="name-contact">
             <label htmlFor="name">Nome</label>
             <input
-              {...register("name", {value: contactFounded?.name})}
+              {...register("name")}
               type="text"
               id="name"
-              defaultValue={contactFounded?.name}
+              defaultValue={user?.name}
               className="contact-title"
             />
           </section>
           <section className="name-contact">
             <label htmlFor="email">Email</label>
             <input
-              {...register("email", {value: contactFounded?.email})}
+              {...register("email")}
               type="email"
               id="email"
-              defaultValue={contactFounded?.email}
+              defaultValue={user?.email}
               className="contact-title"
             />
           </section>
+          
           <section className="name-contact">
             <label htmlFor="telefone">Telefone</label>
             <input
-              {...register("telefone", {value: contactFounded?.telefone})}
+              {...register("telefone")}
               type="text"
               id="telefone"
-              defaultValue={contactFounded?.telefone}
+              defaultValue={user?.telefone}
               className="contact-title"
             />
           </section>
@@ -85,6 +84,6 @@ const ModalEditcontacts = () => {
       </div>
     </StyledModalEdit>
   );
-};
+}
 
-export default ModalEditcontacts;
+export default CardEditProfile;

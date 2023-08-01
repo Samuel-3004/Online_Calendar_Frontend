@@ -13,6 +13,7 @@ export const GlobalStyle = createGlobalStyle`
 
     body {
         font-family: 'Inter', sans-serif;
+        width: 100%;
     }
 
     #root{
@@ -54,6 +55,7 @@ export const GlobalStyle = createGlobalStyle`
 
     #root{
         background-color: #121214;
+        
     }
 
  

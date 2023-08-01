@@ -7,9 +7,14 @@ import ModalRegister from "../../components/ModalRegisterContact";
 
 import { StyledDashboard } from "./dashboard";
 import { UserListContext } from "../../providers/clients/userContext";
+import CardEditProfile from "../../components/CardEditProfile";
 
 function DashboardPage() {
-  const { user, userLogout } = useContext(UserListContext);
+  const { user, userLogout, setOpenEditeUser } = useContext(UserListContext);
+
+  const handleClickToOpenEd = () => {
+    setOpenEditeUser(true);
+  };
 
   return (
     <StyledDashboard>
@@ -27,12 +32,13 @@ function DashboardPage() {
         <section className="information-dashboard">
           <div className="container-main">
             <h2>Olá, {user?.name}</h2>
-            <p>Cadastrado em {user?.createdAt}</p>
+            <p onClick={handleClickToOpenEd}>Editar Perfil</p>
           </div>
         </section>
 
         <CardsContactsDashboard />
       </main>
+      <CardEditProfile />
       <ModalRegister />
       <ModalEditcontacts />
     </StyledDashboard>

@@ -27,17 +27,30 @@ interface IUserContext {
   userRegister: (formData: TClientRequest) => Promise<void>;
   userLogin: (formData: TSession) => Promise<void>;
   userLogout: () => void;
+  openEditeUser: boolean;
+  setOpenEditeUser: React.Dispatch<React.SetStateAction<boolean>>;
+  userEdit: (formData: TClientRequest) => Promise<void>;
+  editUser: boolean;
+  setEditUser: React.Dispatch<React.SetStateAction<boolean>>;
+  handleToCloseEditUser: () => void;
+  userDelete: () => Promise<void>;
 }
 export const UserListContext = createContext({} as IUserContext);
 
 export const UserListProvider = ({ children }: IDefaultProviderProps) => {
   const [token, setToken] = useState("");
   const [idUser, setIdUser] = useState<number | undefined>();
+  const [editUser, setEditUser] = useState(false);
   const [open, setOpen] = useState(false);
+  const [openEditeUser, setOpenEditeUser] = useState(false);
   const [user, setUser] = useState<TUserLogin | null>(null);
 
   const navigate = useNavigate();
-  const { setcontactsUser } = useContext(userContext);
+  const { setcontactsUser, contactsUser } = useContext(userContext);
+
+  const handleToCloseEditUser = () => {
+    setOpenEditeUser(false);
+  };
 
   const userRegister = async (formData: TClientRequest) => {
     try {
@@ -101,6 +114,46 @@ export const UserListProvider = ({ children }: IDefaultProviderProps) => {
     }
   }, []);
 
+
+  const userEdit = async (formData: TClientRequest) => {
+    const token = localStorage.getItem("@TOKEN");
+    const userId = localStorage.getItem("@USERID");
+    if (token) {
+      try {
+        const response = await api.patch<any>(`/client/${userId}`, formData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        setUser(response.data);
+        showToast({ type: "success", message: "Cadastro alterado com sucesso"  });
+        handleToCloseEditUser();
+      } catch (error) {
+        showToast({ type: "error", message: "Ocorreu um erro" });
+      }
+    }
+  };
+
+  const userDelete = async () => {
+    const token = localStorage.getItem("@TOKEN");
+    const userId = localStorage.getItem("@USERID");
+    if (token) {
+      try {
+        await api.delete(`/client/${userId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        userLogout();
+        showToast({ type: "success", message: "Apagado com sucesso" });
+      } catch (error) {
+        console.log(error);
+        showToast({ type: "error", message: "Erro ao tentar deletar" });
+      }
+    }
+  };
+
   return (
     <UserListContext.Provider
       value={{
@@ -114,7 +167,14 @@ export const UserListProvider = ({ children }: IDefaultProviderProps) => {
         idUser,
         setIdUser,
         open,
-        setOpen
+        setOpen,
+        openEditeUser,
+        setOpenEditeUser,
+        userEdit,
+        editUser,
+        setEditUser,
+        handleToCloseEditUser,
+        userDelete
       }}
     >
       {children}
