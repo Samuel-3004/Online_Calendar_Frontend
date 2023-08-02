@@ -4,6 +4,16 @@ import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
 import { userContext } from "../../providers/contacts/contactContext";
 import { TContactRequest } from "../../providers/contacts/types.contacts";
 import { UserListContext } from "../../providers/clients/userContext";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+
+const schema = yup
+  .object({
+    name: yup.string().required("O nome precisa ser informado"),
+    email: yup.string().required("O email precisa ser informado"),
+    telefone: yup.string().required("O telefone precisa ser informado"),
+  })
+  .required();
 
 const ModalEditcontacts = () => {
   const {
@@ -12,7 +22,6 @@ const ModalEditcontacts = () => {
     deleteContact,
     handleToCloseEd,
     openEd,
-    contactsUser,
   } = useContext(userContext);
 
   const {
@@ -20,7 +29,15 @@ const ModalEditcontacts = () => {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<TContactRequest>({});
+  } = useForm<TContactRequest>({
+    defaultValues: {
+      name: contactFounded?.name,
+      email: contactFounded?.email,
+      telefone: contactFounded?.telefone,
+    },
+    mode: "onBlur",
+    resolver: yupResolver(schema),
+  });
 
   const submit: SubmitHandler<TContactRequest> = (formData) => {
     editContact(formData);
@@ -44,7 +61,7 @@ const ModalEditcontacts = () => {
           <section className="name-contact">
             <label htmlFor="name">Nome</label>
             <input
-              {...register("name", {value: contactFounded?.name})}
+              {...register("name")}
               type="text"
               id="name"
               defaultValue={contactFounded?.name}
@@ -54,7 +71,7 @@ const ModalEditcontacts = () => {
           <section className="name-contact">
             <label htmlFor="email">Email</label>
             <input
-              {...register("email", {value: contactFounded?.email})}
+              {...register("email")}
               type="email"
               id="email"
               defaultValue={contactFounded?.email}
@@ -64,7 +81,7 @@ const ModalEditcontacts = () => {
           <section className="name-contact">
             <label htmlFor="telefone">Telefone</label>
             <input
-              {...register("telefone", {value: contactFounded?.telefone})}
+              {...register("telefone")}
               type="text"
               id="telefone"
               defaultValue={contactFounded?.telefone}
