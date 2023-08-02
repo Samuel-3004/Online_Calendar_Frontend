@@ -1,10 +1,8 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
-import CardsContactsDashboard from "../../components/CardsContactsDashboard";
+import CardsContactsDashboard from "../../components/CardContactsDashboard";
 import ModalEditcontacts from "../../components/ModalEditContact";
 import ModalRegister from "../../components/ModalRegisterContact";
-
-
 import { StyledDashboard } from "./dashboard";
 import { UserListContext } from "../../providers/clients/userContext";
 import CardEditProfile from "../../components/CardEditProfile";

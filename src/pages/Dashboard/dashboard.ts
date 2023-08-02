@@ -75,6 +75,7 @@ export const StyledDashboard = styled.div`
                         p{
                             color: var(--color-grey-1);
                             font-size: var(--font-headline);
+                            cursor: pointer;
                         }
                     }
    

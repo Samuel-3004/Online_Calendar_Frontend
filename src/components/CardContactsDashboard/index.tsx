@@ -1,11 +1,11 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 
 import { StyledCardcontacts } from "./cardStyled";
 import { userContext } from "../../providers/contacts/contactContext";
 import { UserListContext } from "../../providers/clients/userContext";
 
 function CardsContactsDashboard() {
-  const { setOpen, user } = useContext(UserListContext);
+  const { setOpen } = useContext(UserListContext);
 
   const { contactsUser, setContactId, setContactFounded, setOpenEd } =
     useContext(userContext);
@@ -16,15 +16,18 @@ function CardsContactsDashboard() {
 
   const handleClickToOpenEd = (id: number) => {
     setContactId(id);
-    contactsUser.find((contact) => {
+
+    const searchContact = contactsUser.find((contact) => {
       if (contact.id == id) {
-        setContactFounded(contact);
+        return contact;
       }
     });
+
+    setContactFounded(searchContact);
+
     if (contactsUser) {
       setOpenEd(true);
     }
-    // setOpenEd(true);
   };
 
   return (

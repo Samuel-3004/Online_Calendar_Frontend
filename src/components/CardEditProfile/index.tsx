@@ -1,6 +1,6 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { StyledModalEdit } from "./modalEditarStyled";
-import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { UserListContext } from "../../providers/clients/userContext";
 import { TClientRequest } from "../../providers/clients/types.clients";
 
@@ -28,6 +28,7 @@ function CardEditProfile() {
 
   const btnDelete = () => {
     userDelete();
+    
     handleToCloseEditUser();
   };
 

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { StyledRegister } from "./register";
@@ -42,8 +42,8 @@ function RegisterPage() {
   });
 
   const submit = (formData: any) => {
-    console.log(formData);
     userRegister(formData);
+    
     reset();
   };
 

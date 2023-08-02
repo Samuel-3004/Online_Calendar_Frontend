@@ -1,9 +1,8 @@
-import React, { useContext, useState } from "react";
+import { useContext } from "react";
 import { StyledModalEdit } from "./modalEditarStyled";
-import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { userContext } from "../../providers/contacts/contactContext";
 import { TContactRequest } from "../../providers/contacts/types.contacts";
-import { UserListContext } from "../../providers/clients/userContext";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
@@ -41,14 +40,15 @@ const ModalEditcontacts = () => {
 
   const submit: SubmitHandler<TContactRequest> = (formData) => {
     editContact(formData);
+
     reset();
   };
 
   const btnDelete = () => {
     deleteContact();
+
     handleToCloseEd();
   };
-  
 
   return (
     <StyledModalEdit open={openEd}>

@@ -38,7 +38,9 @@ export const ContactProvider = ({ children }: IDefaultProviderProps) => {
 
   const registerContact = async (formData: TContactRequest) => {
     const token = localStorage.getItem("@TOKEN");
+
     const userId = localStorage.getItem("@USERID");
+
     if (token) {
       try {
         const response = await api.post<TContactNoRelation>(`/contact/${userId}`, formData, {
@@ -46,16 +48,23 @@ export const ContactProvider = ({ children }: IDefaultProviderProps) => {
             Authorization: `Bearer ${token}`,
           },
         });
+
         setcontactsUser([...contactsUser, response.data]);
+
         showToast({
           type: "success",
+
           message: "Cadastro de tecnologia feito com sucesso",
         });
+
         handleToClose();
+
       } catch (error) {
         console.log(error);
+
         showToast({
           type: "error",
+
           message: "Erro ao tentar cadastrar uma nova tecnologia",
         });
       }
@@ -72,6 +81,7 @@ export const ContactProvider = ({ children }: IDefaultProviderProps) => {
             Authorization: `Bearer ${token}`,
           },
         });
+
         const contactAtual = contactsUser.map((tech) => {
           if (tech.id === contactId) {
             return response.data;
@@ -79,8 +89,11 @@ export const ContactProvider = ({ children }: IDefaultProviderProps) => {
             return tech;
           }
         });
+
         setcontactsUser(contactAtual);
+
         showToast({ type: "success", message: "Alterado com sucesso" });
+        
         handleToCloseEd();
       } catch (error) {
         showToast({ type: "error", message: "Ocorreu um erro" });
@@ -90,6 +103,7 @@ export const ContactProvider = ({ children }: IDefaultProviderProps) => {
 
   const deleteContact = async () => {
     const token = localStorage.getItem("@TOKEN");
+
     if (token) {
       try {
         await api.delete(`/contact/${contactId}`, {
@@ -103,11 +117,15 @@ export const ContactProvider = ({ children }: IDefaultProviderProps) => {
             return contactUser;
           }
         });
+
         setcontactsUser(contactsAtual);
+
         showToast({ type: "success", message: "Apagado com sucesso" });
+        
         handleToCloseEd();
       } catch (error) {
         console.log(error);
+        
         showToast({ type: "error", message: "Erro ao tentar deletar" });
       }
     }

@@ -1,10 +1,9 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { StyledLogin } from "./Login";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-
 import { MdVisibilityOff, MdVisibility } from "react-icons/md";
 import { UserListContext } from "../../providers/clients/userContext";
 
@@ -17,6 +16,7 @@ const schema = yup
 
 function LoginPage({}) {
   const { userLogin } = useContext(UserListContext);
+  
   const [isHidden, setIsHidden] = useState(true);
 
   const {

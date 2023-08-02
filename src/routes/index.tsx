@@ -1,4 +1,3 @@
-import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Page404 from "../pages/404";
 import DashboardPage from "../pages/Dashboard";

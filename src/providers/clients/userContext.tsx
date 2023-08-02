@@ -46,6 +46,7 @@ export const UserListProvider = ({ children }: IDefaultProviderProps) => {
   const [user, setUser] = useState<TUserLogin | null>(null);
 
   const navigate = useNavigate();
+
   const { setcontactsUser, contactsUser } = useContext(userContext);
 
   const handleToCloseEditUser = () => {
@@ -55,10 +56,13 @@ export const UserListProvider = ({ children }: IDefaultProviderProps) => {
   const userRegister = async (formData: TClientRequest) => {
     try {
       await api.post<TClient>(`/client`, formData);
+
       showToast({ type: "sucess", message: "Cadastro realizado com sucesso" });
+      
       navigate("/");
     } catch (error) {
       console.log(error);
+
       showToast({
         type: "error",
         message: "O cadastro não foi realizado. Tente novamente!",
@@ -71,28 +75,38 @@ export const UserListProvider = ({ children }: IDefaultProviderProps) => {
       const response = await api.post<TDataLogin>(`/session`, formData);
 
       setUser(response.data.user);
+
       setIdUser(response.data.user.id);
+
       setcontactsUser(response.data.user.contacts);
 
       localStorage.setItem("@TOKEN", response.data.token);
+
       localStorage.setItem("@USERID", String(response.data.user.id));
+
       showToast({ type: "success", message: "Login realizado com sucesso" });
+      
       navigate("/dashboard");
     } catch (error) {
       console.error(error);
+
       showToast({ type: "error", message: "Email e/ou senha inexistente" });
     }
   };
 
   const userLogout = () => {
     setUser(null);
+
     localStorage.removeItem("@TOKEN");
+
     localStorage.removeItem("@USERID");
+
     navigate("/");
   };
 
   useEffect(() => {
     const token = localStorage.getItem("@TOKEN");
+
     if (token) {
       const userAutoLogin = async () => {
         try {
@@ -103,8 +117,11 @@ export const UserListProvider = ({ children }: IDefaultProviderProps) => {
           });
 
           setUser(response.data.user);
+
           setIdUser(response.data.user.id);
+
           setcontactsUser(response.data.user.contacts);
+
           navigate("/dashboard");
         } catch (error) {
           console.log(error);
@@ -114,10 +131,11 @@ export const UserListProvider = ({ children }: IDefaultProviderProps) => {
     }
   }, []);
 
-
   const userEdit = async (formData: TClientRequest) => {
     const token = localStorage.getItem("@TOKEN");
+
     const userId = localStorage.getItem("@USERID");
+
     if (token) {
       try {
         const response = await api.patch<any>(`/client/${userId}`, formData, {
@@ -127,7 +145,12 @@ export const UserListProvider = ({ children }: IDefaultProviderProps) => {
         });
 
         setUser(response.data);
-        showToast({ type: "success", message: "Cadastro alterado com sucesso"  });
+
+        showToast({
+          type: "success",
+          message: "Cadastro alterado com sucesso",
+        });
+
         handleToCloseEditUser();
       } catch (error) {
         showToast({ type: "error", message: "Ocorreu um erro" });
@@ -137,7 +160,9 @@ export const UserListProvider = ({ children }: IDefaultProviderProps) => {
 
   const userDelete = async () => {
     const token = localStorage.getItem("@TOKEN");
+
     const userId = localStorage.getItem("@USERID");
+
     if (token) {
       try {
         await api.delete(`/client/${userId}`, {
@@ -145,10 +170,13 @@ export const UserListProvider = ({ children }: IDefaultProviderProps) => {
             Authorization: `Bearer ${token}`,
           },
         });
+
         userLogout();
+
         showToast({ type: "success", message: "Apagado com sucesso" });
       } catch (error) {
         console.log(error);
+        
         showToast({ type: "error", message: "Erro ao tentar deletar" });
       }
     }
@@ -174,7 +202,7 @@ export const UserListProvider = ({ children }: IDefaultProviderProps) => {
         editUser,
         setEditUser,
         handleToCloseEditUser,
-        userDelete
+        userDelete,
       }}
     >
       {children}

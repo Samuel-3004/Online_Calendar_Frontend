@@ -1,8 +1,6 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { StyledModalRegister } from "./modalRegisterStyled";
 import { useForm } from "react-hook-form";
-;
-
 import { UserListContext } from "../../providers/clients/userContext";
 import { userContext } from "../../providers/contacts/contactContext";
 
@@ -24,6 +22,7 @@ function ModalRegister() {
 
   const submit = (data: any) => {
     registerContact(data);
+
     reset();
     handleToClose();
   };
