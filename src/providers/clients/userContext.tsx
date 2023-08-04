@@ -29,7 +29,7 @@ interface IUserContext {
   userLogout: () => void;
   openEditeUser: boolean;
   setOpenEditeUser: React.Dispatch<React.SetStateAction<boolean>>;
-  userEdit: (formData: TClientRequest) => Promise<void>;
+  userEdit: (formData: TClientRequest) => Promise<void>
   editUser: boolean;
   setEditUser: React.Dispatch<React.SetStateAction<boolean>>;
   handleToCloseEditUser: () => void;
@@ -138,12 +138,11 @@ export const UserListProvider = ({ children }: IDefaultProviderProps) => {
 
     if (token) {
       try {
-        const response = await api.patch<any>(`/client/${userId}`, formData, {
+        const response = await api.patch<TClient | any>(`/client/${userId}`, formData, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-
         setUser(response.data);
 
         showToast({

@@ -3,6 +3,7 @@ import { StyledModalRegister } from "./modalRegisterStyled";
 import { useForm } from "react-hook-form";
 import { UserListContext } from "../../providers/clients/userContext";
 import { userContext } from "../../providers/contacts/contactContext";
+import { TContactRequest } from "../../interfaces/contacts.interface";
 
 function ModalRegister() {
   const { open, setOpen } = useContext(UserListContext);
@@ -18,9 +19,9 @@ function ModalRegister() {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm();
+  } = useForm<TContactRequest>({});
 
-  const submit = (data: any) => {
+  const submit = (data: TContactRequest)  => {
     registerContact(data);
 
     reset();

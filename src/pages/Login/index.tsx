@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { MdVisibilityOff, MdVisibility } from "react-icons/md";
 import { UserListContext } from "../../providers/clients/userContext";
+import { TSession } from "../../interfaces/session.interface";
 
 const schema = yup
   .object({
@@ -34,7 +35,7 @@ function LoginPage({}) {
     navigate("/register");
   };
 
-  const submit = (formData: any) => {
+  const submit = (formData: TSession) => {
     userLogin(formData);
   };
 

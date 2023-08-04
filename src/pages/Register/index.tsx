@@ -5,6 +5,7 @@ import { StyledRegister } from "./register";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { UserListContext } from "../../providers/clients/userContext";
+import { TRegisterClient } from "../../interfaces/clients.interface";
 
 
 const schema = yup
@@ -41,7 +42,7 @@ function RegisterPage() {
     resolver: yupResolver(schema),
   });
 
-  const submit = (formData: any) => {
+  const submit = (formData: TRegisterClient | any) => {
     userRegister(formData);
     
     reset();
